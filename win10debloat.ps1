@@ -422,21 +422,56 @@ $Panel3.controls.AddRange(@($securitylow, $securityhigh, $Label5, $Label6, $Labe
 $Panel4.controls.AddRange(@($defaultwindowsupdate, $securitywindowsupdate, $Label16, $Label17, $Label18, $Label19))
 
 
-<#  WIP  #>
-# function Start-Button {
-# 	param (
-# 		$ScriptBlock,
-# 		$Name
-# 	)
-# 	$job = Start-Job -Name $name -ScriptBlock ($scriptblock)
-# 	$psobject
-# 	$ID = $job.Id
-# 	Get-Job -Id $id
+<#  #WIP#
 
-# }
+#Really there should be somthing like this:
 
 
+start-job -scriptblock ( {
+		
+	do {
 
+			get-job ("hello", "dole")
+
+			removejob
+
+			enable button
+
+		}while ($true)
+	})
+
+
+
+
+#>
+
+<# WIP
+$refresh.Add_Click(
+	{
+		
+		
+		
+		
+		$job = Get-Job ("hello", "dole")	
+		foreach ($j in $job) {
+			$j.Name
+
+
+
+
+
+
+
+
+
+			#$installchoco, $brave, $firefox, $7zip, $irfanview, $adobereader, $notepad, $gchrome, $mpc, $vlc, $powertoys, $winterminal, $vscode, $essentialtweaks, $backgroundapps, $cortana, $windowssearch, $actioncenter, $darkmode, $visualfx, $onedrive, $lightmode, $securitylow, $securityhigh, $defaultwindowsupdate, $securitywindowsupdate,
+		}
+	}
+
+)
+
+
+#>
 
 
 $installchoco.Add_Click( { 
@@ -449,6 +484,7 @@ $installchoco.Add_Click( {
 		# $Name = "installchococore"
 		# $SBCC = "choco upgrade chocolatey-core.extension -y"
 		# Start-Button -Scriptblock $SBCC -Name $Name
+		$installchoco.Enabled = $false
 		$job = Start-Job -ScriptBlock ( { "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')" } )
 		Write-Host "Installing Chocolatey"
 		Wait-Job -Id $job.id
@@ -461,6 +497,7 @@ $installchoco.Add_Click( {
 
 
 $brave.Add_Click( { 
+		$brave.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing Brave Browser"
 				Start-Job -ScriptBlock ( { "choco upgrade brave -y" })
@@ -469,6 +506,7 @@ $brave.Add_Click( {
 	})
 
 $firefox.Add_Click( { 
+		$firefox.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing Firefox"
 				Start-Job -ScriptBlock ( { "choco upgrade firefox -y" })
@@ -476,7 +514,8 @@ $firefox.Add_Click( {
 			})
 	})
 
-$gchrome.Add_Click( { 
+$gchrome.Add_Click( {
+		$gchrome.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing Google Chrome"
 				Start-Job -ScriptBlock ( { "choco upgrade googlechrome -y" })
@@ -485,6 +524,7 @@ $gchrome.Add_Click( {
 	})
 
 $irfanview.Add_Click( { 
+		$irfanview.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing Irfanview (Image Viewer)"
 				Start-Job -ScriptBlock ( { "choco upgrade irfanview -y" })
@@ -493,6 +533,7 @@ $irfanview.Add_Click( {
 	})
 
 $adobereader.Add_Click( { 
+		$adobereader.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing Adobe Reader DC"
 				Start-Job -ScriptBlock ( { "choco upgrade adobereader -y" })
@@ -501,6 +542,7 @@ $adobereader.Add_Click( {
 	})
 
 $notepad.Add_Click( { 
+		$notepad.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing Notepad++"
 				Start-Job -ScriptBlock ( { "choco upgrade notepadplusplus -y" })
@@ -509,6 +551,7 @@ $notepad.Add_Click( {
 	})
 
 $vlc.Add_Click( { 
+		$vlc.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing VLC Media Player"
 				Start-Job -ScriptBlock ( { "choco upgrade vlc -y" })
@@ -517,6 +560,7 @@ $vlc.Add_Click( {
 	})
 
 $mpc.Add_Click( { 
+		$mpc.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing Media Player Classic"
 				Start-Job -ScriptBlock ( { "choco upgrade mpc-be -y" })
@@ -525,6 +569,7 @@ $mpc.Add_Click( {
 	})
 
 $7zip.Add_Click( { 
+		$7zip.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing 7-Zip Compression Tool"
 				Start-Job -ScriptBlock ( { "choco upgrade 7zip -y" })
@@ -533,6 +578,7 @@ $7zip.Add_Click( {
 	})
 
 $vscode.Add_Click( { 
+		$vscode.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing Visual Studio Code"
 				Start-Job -ScriptBlock ( { "choco upgrade vscode -y" })
@@ -541,6 +587,7 @@ $vscode.Add_Click( {
 	})
 
 $winterminal.Add_Click( { 
+		$winterminal.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing New Windows Terminal"
 				Start-Job -ScriptBlock ( { "choco upgrade microsoft-windows-terminal -y" })
@@ -549,6 +596,7 @@ $winterminal.Add_Click( {
 	})
 
 $powertoys.Add_Click( { 
+		$powertoys.Enabled = $false
 		Start-Job -ScriptBlock ( { 	
 				Write-Host "Installing Microsoft PowerToys"
 				Start-Job -ScriptBlock ( { "choco upgrade powertoys -y" })
@@ -557,6 +605,7 @@ $powertoys.Add_Click( {
 	})
 
 $essentialtweaks.Add_Click( { 
+		$essentialtweaks.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Creating Restore Point incase something bad happens"
 				Enable-ComputerRestore -Drive "C:\"
@@ -838,6 +887,7 @@ $essentialtweaks.Add_Click( {
 	})
 
 $windowssearch.Add_Click( { 
+		$windowssearch.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Disabling Bing Search in Start Menu..."
 				Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWord -Value 0
@@ -856,6 +906,7 @@ $windowssearch.Add_Click( {
 	})
 
 $backgroundapps.Add_Click( { 
+		$backgroundapps.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Disabling Background application access..."
 				Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*" | ForEach {
@@ -867,6 +918,7 @@ $backgroundapps.Add_Click( {
 	})
 
 $cortana.Add_Click( { 
+		$cortana.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Disabling Cortana..."
 				If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings")) {
@@ -892,6 +944,7 @@ $cortana.Add_Click( {
 	})
 
 $securitylow.Add_Click( { 
+		$securitylow.Enabled = $false
 		Start-Job -ScriptBlock ( {
 				Write-Host "Lowering UAC level..."
 				Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 0
@@ -926,6 +979,7 @@ $securitylow.Add_Click( {
 	})
 
 $securityhigh.Add_Click( { 
+		$securityhigh.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Raising UAC level..."
 				Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 5
@@ -958,6 +1012,7 @@ $securityhigh.Add_Click( {
 	})
 
 $defaultwindowsupdate.Add_Click( { 
+		$defaultwindowsupdate.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Enabling driver offering through Windows Update..."
 				Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -ErrorAction SilentlyContinue
@@ -973,8 +1028,8 @@ $defaultwindowsupdate.Add_Click( {
 	})
 
 $securitywindowsupdate.Add_Click( { 
+		$securitywindowsupdate.Enabled = $false
 		Start-Job -ScriptBlock ( { 
-
 				Write-Host "Disabling driver offering through Windows Update..."
 				If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata")) {
 					New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" -Force | Out-Null
@@ -1003,6 +1058,7 @@ $securitywindowsupdate.Add_Click( {
 	})
 
 $actioncenter.Add_Click( { 
+		$actioncenter.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Disabling Action Center..."
 				If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
@@ -1016,6 +1072,7 @@ $actioncenter.Add_Click( {
 	})
 
 $visualfx.Add_Click( { 
+		$visualfx.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Adjusting visual effects for performance..."
 				Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DragFullWindows" -Type String -Value 0
@@ -1034,6 +1091,7 @@ $visualfx.Add_Click( {
 	})
 
 $onedrive.Add_Click( { 
+		$onedrive.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Disabling OneDrive..."
 				If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive")) {
@@ -1065,6 +1123,7 @@ $onedrive.Add_Click( {
 	})
 
 $darkmode.Add_Click( { 
+		$darkmode.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Enabling Dark Mode"
 				Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name AppsUseLightTheme -Value 0
@@ -1074,6 +1133,7 @@ $darkmode.Add_Click( {
 	})
 
 $lightmode.Add_Click( { 
+		$lightmode.Enabled = $false
 		Start-Job -ScriptBlock ( {
 				Write-Host "Switching Back to Light Mode"
 				Remove-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name AppsUseLightTheme
