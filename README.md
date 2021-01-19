@@ -1,7 +1,20 @@
-# win10script
+# Update List
+### 2020-01-18
+- Added jobs for each button
+- Added feature to disable button when used
+
+# Future Fixes
+### 2020-01-18
+- Add an automatic way to enable buttons on job completion
+- And more!
+
+##### ES
+----
+
+### win10script
 This is the Ultimate Windows 10 Script from a creation from multiple debloat scripts and gists from github. I also added Chocolatey and other tools to the script that I install on every machine.
 
-## My Additions
+### My Additions
 
 - Dark Mode
 - One Command to launch and run
@@ -12,13 +25,3 @@ This is the Ultimate Windows 10 Script from a creation from multiple debloat scr
 - Full GUI Implementation
 
 For complete details check out https://christitus.com/debloat-windows-10-2020/
-
-# Update List
-### 2020-01-18
-- Added jobs for each button
-- Added feature to disable button when used
-
-# Future Fixes
-### 2020-01-18
-- Add an automatic way to enable buttons on job completion
-- And more!
