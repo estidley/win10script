@@ -13,9 +13,10 @@ This is the Ultimate Windows 10 Script from a creation from multiple debloat scr
 
 For complete details check out https://christitus.com/debloat-windows-10-2020/
 
-# Update List 
-### 2020-01-18
-##### ES
+# Update List
+### 2020-01-18 | 
+#### ES
+
 -Added jobs for each button
 -Added feature to disable button when used
 
