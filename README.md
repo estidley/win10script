@@ -15,10 +15,10 @@ For complete details check out https://christitus.com/debloat-windows-10-2020/
 
 # Update List
 ### 2020-01-18
--Added jobs for each button
--Added feature to disable button when used
+- Added jobs for each button
+- Added feature to disable button when used
 
 # Future Fixes
 ### 2020-01-18
--Add an automatic way to enable buttons on job completion
--And more!
+- Add an automatic way to enable buttons on job completion
+- And more!
