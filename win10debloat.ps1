@@ -488,7 +488,7 @@ $installchoco.Add_Click( {
 		$job = Start-Job -ScriptBlock ( { "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')" } )
 		Write-Host "Installing Chocolatey"
 		Wait-Job -Id $job.id
-		Start-Job -ScriptBlock ( { "choco upgrade chocolatey-core.extension -y" } )
+		Start-Job -ScriptBlock ( { choco upgrade chocolatey-core.extension -y } )
 
 
 
@@ -498,110 +498,110 @@ $installchoco.Add_Click( {
 
 $brave.Add_Click( { 
 		$brave.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+		
 				Write-Host "Installing Brave Browser"
-				Start-Job -ScriptBlock ( { "choco upgrade brave -y" })
+				Start-Job -ScriptBlock ( { choco upgrade brave -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})	
+				
 	})
 
 $firefox.Add_Click( { 
 		$firefox.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+		
 				Write-Host "Installing Firefox"
-				Start-Job -ScriptBlock ( { "choco upgrade firefox -y" })
+				Start-Job -ScriptBlock ( { choco upgrade firefox -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+			
 	})
 
 $gchrome.Add_Click( {
 		$gchrome.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+	
 				Write-Host "Installing Google Chrome"
-				Start-Job -ScriptBlock ( { "choco upgrade googlechrome -y" })
+				Start-Job -ScriptBlock ( { choco upgrade googlechrome -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+			
 	})
 
 $irfanview.Add_Click( { 
 		$irfanview.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+		 
 				Write-Host "Installing Irfanview (Image Viewer)"
-				Start-Job -ScriptBlock ( { "choco upgrade irfanview -y" })
+				Start-Job -ScriptBlock ( { choco upgrade irfanview -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+			
 	})
 
 $adobereader.Add_Click( { 
 		$adobereader.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+		
 				Write-Host "Installing Adobe Reader DC"
-				Start-Job -ScriptBlock ( { "choco upgrade adobereader -y" })
+				Start-Job -ScriptBlock ( { choco upgrade adobereader -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+			
 	})
 
 $notepad.Add_Click( { 
 		$notepad.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+		
 				Write-Host "Installing Notepad++"
-				Start-Job -ScriptBlock ( { "choco upgrade notepadplusplus -y" })
+				Start-Job -ScriptBlock ( { choco upgrade notepadplusplus -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+			
 	})
 
 $vlc.Add_Click( { 
 		$vlc.Enabled = $false
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Installing VLC Media Player"
-				Start-Job -ScriptBlock ( { "choco upgrade vlc -y" })
+				Start-Job -ScriptBlock ( { choco upgrade vlc -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
 			})
 	})
 
 $mpc.Add_Click( { 
 		$mpc.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+		
 				Write-Host "Installing Media Player Classic"
-				Start-Job -ScriptBlock ( { "choco upgrade mpc-be -y" })
+				Start-Job -ScriptBlock ( { choco upgrade mpc-be -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+		
 	})
 
 $7zip.Add_Click( { 
 		$7zip.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+		
 				Write-Host "Installing 7-Zip Compression Tool"
-				Start-Job -ScriptBlock ( { "choco upgrade 7zip -y" })
+				Start-Job -ScriptBlock ( { choco upgrade 7zip -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+			
 	})
 
 $vscode.Add_Click( { 
 		$vscode.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+		
 				Write-Host "Installing Visual Studio Code"
-				Start-Job -ScriptBlock ( { "choco upgrade vscode -y" })
+				Start-Job -ScriptBlock ( { choco upgrade vscode -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+			
 	})
 
 $winterminal.Add_Click( { 
 		$winterminal.Enabled = $false
-		Start-Job -ScriptBlock ( { 
+		
 				Write-Host "Installing New Windows Terminal"
-				Start-Job -ScriptBlock ( { "choco upgrade microsoft-windows-terminal -y" })
+				Start-Job -ScriptBlock ( { choco upgrade microsoft-windows-terminal -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+			
 	})
 
 $powertoys.Add_Click( { 
 		$powertoys.Enabled = $false
-		Start-Job -ScriptBlock ( { 	
+			
 				Write-Host "Installing Microsoft PowerToys"
-				Start-Job -ScriptBlock ( { "choco upgrade powertoys -y" })
+				Start-Job -ScriptBlock ( { choco upgrade powertoys -y })
 				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+		
 	})
 
 $essentialtweaks.Add_Click( { 
