@@ -428,7 +428,8 @@ $JobArray = new-object psobject
 # $obj | add-member -name Name -type noteproperty -value "" 
 $JobArray = ('$installchoco', '$brave', '$firefox', '$7zip', '$irfanview', '$adobereader', '$notepad', '$gchrome', '$mpc', '$vlc', '$powertoys', '$winterminal', '$vscode', '$essentialtweaks', '$backgroundapps', '$cortana', '$windowssearch', '$actioncenter', '$darkmode', '$visualfx', '$onedrive', '$lightmode', '$defaultwindowsupdate', '$securitywindowsupdate', '$securitylow', '$securityhigh')  #+= $obj
 
-				
+
+<#			
 start-job -Name "Job of Jobs" -ScriptBlock ( {
 		do {
 			$jobs = Get-Job -State "Completed" 
@@ -450,7 +451,7 @@ start-job -Name "Job of Jobs" -ScriptBlock ( {
 		}while ($true) {}
 	}) -InputObject ($JobArray)
 
-
+#>
 
 
 function check-choco {
