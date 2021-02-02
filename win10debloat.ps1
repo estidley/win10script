@@ -422,186 +422,225 @@ $Panel3.controls.AddRange(@($securitylow, $securityhigh, $Label5, $Label6, $Labe
 $Panel4.controls.AddRange(@($defaultwindowsupdate, $securitywindowsupdate, $Label16, $Label17, $Label18, $Label19))
 
 
-<#  #WIP#
+# ARRAY of choco jobs
+$JobArray = @() 
+$JobArray = new-object psobject
+# $obj | add-member -name Name -type noteproperty -value "" 
+$JobArray = ('$installchoco', '$brave', '$firefox', '$7zip', '$irfanview', '$adobereader', '$notepad', '$gchrome', '$mpc', '$vlc', '$powertoys', '$winterminal', '$vscode', '$essentialtweaks', '$backgroundapps', '$cortana', '$windowssearch', '$actioncenter', '$darkmode', '$visualfx', '$onedrive', '$lightmode', '$defaultwindowsupdate', '$securitywindowsupdate', '$securitylow', '$securityhigh')  #+= $obj
 
-#Really there should be somthing like this:
+				
+start-job -Name "Job of Jobs" -ScriptBlock ( {
+		do {
+			$jobs = Get-Job -State "Completed" 
 
-
-start-job -scriptblock ( {
-		
-	do {
-
-			get-job ("hello", "dole")
-
-			removejob
-
-			enable button
-
-		}while ($true)
-	})
-
-
-
-
-#>
-
-<# WIP
-$refresh.Add_Click(
-	{
-		
-		
-		
-		
-		$job = Get-Job ("hello", "dole")	
-		foreach ($j in $job) {
-			$j.Name
+			foreach ($job in $jobs) {
+				if ($JobArray -contains $job.name) {
+					$wshell.Popup("$job.Name has been installed.", 0, "Done", 0x0)
+					Start-Process PowerShell -ArgumentList {$job.name }
+				}
+			}
 
 
 
 
 
+			$jobs.Command
+			Remove-Job $jobs
+
+		}while ($true) {}
+	}) -InputObject ($JobArray)
 
 
 
 
-			#$installchoco, $brave, $firefox, $7zip, $irfanview, $adobereader, $notepad, $gchrome, $mpc, $vlc, $powertoys, $winterminal, $vscode, $essentialtweaks, $backgroundapps, $cortana, $windowssearch, $actioncenter, $darkmode, $visualfx, $onedrive, $lightmode, $securitylow, $securityhigh, $defaultwindowsupdate, $securitywindowsupdate,
-		}
+function check-choco {
+	if ($null -ne $chocostatus) {
+		Clear-Variable chocostatus
 	}
-
-)
-
-
-#>
+	$script:chocostatus = choco -v
+}
 
 
 $installchoco.Add_Click( { 
-		<#  WIP  #>
-		# $SBIC = "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')"
-		# $Name = "installchoco"
-		# Start-Button -Scriptblock $SBIC -Name $Name
-		# Write-Host "Installing Chocolatey"
 
-		# $Name = "installchococore"
-		# $SBCC = "choco upgrade chocolatey-core.extension -y"
-		# Start-Button -Scriptblock $SBCC -Name $Name
+
 		$installchoco.Enabled = $false
-		$job = Start-Job -ScriptBlock ( { "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')" } )
-		Write-Host "Installing Chocolatey"
+		$job = Start-Job -Name "Chocolatey.org" -ScriptBlock ( { "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')" } )
+		Write-Host "Chocolatey"
 		Wait-Job -Id $job.id
-		Start-Job -ScriptBlock ( { choco upgrade chocolatey-core.extension -y } )
-
-
-
+		
+		Start-Job -Name "chocolatey-core.extension" -ScriptBlock ( { choco upgrade chocolatey-core.extension -y } )
+		check-choco
+		if ($null -ne $chocostatus) {
+			$wshell.Popup("Chocolatey has been installed.", 15, "Done", 0x0)
+		}
 	})
 
 
 
 $brave.Add_Click( { 
-		$brave.Enabled = $false
+		check-choco
+		if ($null -ne $chocostatus) {
+			$brave.Enabled = $false
 		
-				Write-Host "Installing Brave Browser"
-				Start-Job -ScriptBlock ( { choco upgrade brave -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-				
+			Write-Host "Installing Brave Browser"
+			Start-Job -Name "Brave"-ScriptBlock ( { choco upgrade brave -y })
+			
+					
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $firefox.Add_Click( { 
-		$firefox.Enabled = $false
-		
-				Write-Host "Installing Firefox"
-				Start-Job -ScriptBlock ( { choco upgrade firefox -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+		check-choco
+		if ($null -ne $chocostatus) {
+			$firefox.Enabled = $false
+			Write-Host "Installing Firefox"
+			Start-Job -Name "FireFox" -ScriptBlock ( { choco upgrade firefox -y })
 			
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $gchrome.Add_Click( {
-		$gchrome.Enabled = $false
-	
-				Write-Host "Installing Google Chrome"
-				Start-Job -ScriptBlock ( { choco upgrade googlechrome -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+		check-choco
+		if ($null -ne $chocostatus) {
+			$gchrome.Enabled = $false
+			Write-Host "Installing Google Chrome"
+			Start-Job -Name "GoogleChrome" -ScriptBlock ( { choco upgrade googlechrome -y })
 			
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $irfanview.Add_Click( { 
-		$irfanview.Enabled = $false
-		 
-				Write-Host "Installing Irfanview (Image Viewer)"
-				Start-Job -ScriptBlock ( { choco upgrade irfanview -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+		check-choco
+		if ($null -ne $chocostatus) {
+			$irfanview.Enabled = $false
+			Write-Host "Installing Irfanview (Image Viewer)"
+			Start-Job -Name "Irfanview"-ScriptBlock ( { choco upgrade irfanview -y })
 			
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}	
 	})
 
 $adobereader.Add_Click( { 
-		$adobereader.Enabled = $false
-		
-				Write-Host "Installing Adobe Reader DC"
-				Start-Job -ScriptBlock ( { choco upgrade adobereader -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+		check-choco
+		if ($null -ne $chocostatus) {
+			$adobereader.Enabled = $false
+			Write-Host "Installing Adobe Reader DC"
+			Start-Job -ScriptBlock ( { choco upgrade adobereader -y })
 			
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $notepad.Add_Click( { 
-		$notepad.Enabled = $false
+		check-choco
+		if ($null -ne $chocostatus) {
+			$notepad.Enabled = $false
 		
-				Write-Host "Installing Notepad++"
-				Start-Job -ScriptBlock ( { choco upgrade notepadplusplus -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+			Write-Host "Installing Notepad++"
+			Start-Job -ScriptBlock ( { choco upgrade notepadplusplus -y })
 			
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $vlc.Add_Click( { 
-		$vlc.Enabled = $false
-		Start-Job -ScriptBlock ( { 
-				Write-Host "Installing VLC Media Player"
-				Start-Job -ScriptBlock ( { choco upgrade vlc -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-			})
+		check-choco
+		if ($null -ne $chocostatus) {
+			$vlc.Enabled = $false
+		
+			Write-Host "Installing VLC Media Player"
+			Start-Job -ScriptBlock ( { choco upgrade vlc -y })
+			
+				
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $mpc.Add_Click( { 
-		$mpc.Enabled = $false
+		check-choco
+		if ($null -ne $chocostatus) {
+			$mpc.Enabled = $false
 		
-				Write-Host "Installing Media Player Classic"
-				Start-Job -ScriptBlock ( { choco upgrade mpc-be -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-		
+			Write-Host "Installing Media Player Classic"
+			Start-Job -ScriptBlock ( { choco upgrade mpc-be -y })
+			
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $7zip.Add_Click( { 
-		$7zip.Enabled = $false
+		check-choco
+		if ($null -ne $chocostatus) {
+			$7zip.Enabled = $false
 		
-				Write-Host "Installing 7-Zip Compression Tool"
-				Start-Job -ScriptBlock ( { choco upgrade 7zip -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+			Write-Host "Installing 7-Zip Compression Tool"
+			Start-Job -ScriptBlock ( { choco upgrade 7zip -y })
 			
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}	
 	})
 
 $vscode.Add_Click( { 
-		$vscode.Enabled = $false
+		check-choco
+		if ($null -ne $chocostatus) {
+			$vscode.Enabled = $false
 		
-				Write-Host "Installing Visual Studio Code"
-				Start-Job -ScriptBlock ( { choco upgrade vscode -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+			Write-Host "Installing Visual Studio Code"
+			Start-Job -ScriptBlock ( { choco upgrade vscode -y })
 			
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $winterminal.Add_Click( { 
-		$winterminal.Enabled = $false
+		check-choco
+		if ($null -ne $chocostatus) {
+			$winterminal.Enabled = $false
 		
-				Write-Host "Installing New Windows Terminal"
-				Start-Job -ScriptBlock ( { choco upgrade microsoft-windows-terminal -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+			Write-Host "Installing New Windows Terminal"
+			Start-Job -ScriptBlock ( { choco upgrade microsoft-windows-terminal -y })
 			
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $powertoys.Add_Click( { 
-		$powertoys.Enabled = $false
+		check-choco
+		if ($null -ne $chocostatus) {
+			$powertoys.Enabled = $false
+			Write-Host "Installing Microsoft PowerToys"
+			Start-Job -ScriptBlock ( { choco upgrade powertoys -y })
 			
-				Write-Host "Installing Microsoft PowerToys"
-				Start-Job -ScriptBlock ( { choco upgrade powertoys -y })
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
-		
+		}
+		else {
+			$wshell.Popup("Chocolatey is not installed. Please install chocolatey before proceeding", 0, "Error", 0x0)
+		}
 	})
 
 $essentialtweaks.Add_Click( { 
@@ -881,7 +920,7 @@ $essentialtweaks.Add_Click( {
 					}
 				}
     
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 
 			})
 	})
@@ -901,7 +940,7 @@ $windowssearch.Add_Click( {
 				Set-Service "WSearch" -StartupType Disabled
 				Write-Host "Hiding Taskbar Search icon / box..."
 				Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 			})
 	})
 
@@ -913,7 +952,7 @@ $backgroundapps.Add_Click( {
 					Set-ItemProperty -Path $_.PsPath -Name "Disabled" -Type DWord -Value 1
 					Set-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -Type DWord -Value 1
 				}
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 			})
 	})
 
@@ -938,7 +977,7 @@ $cortana.Add_Click( {
 					New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Force | Out-Null
 				}
 				Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type DWord -Value 0
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 
 			})
 	})
@@ -973,7 +1012,7 @@ $securitylow.Add_Click( {
 					New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" | Out-Null
 				}
 				Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" -Name "DontOfferThroughWUAU" -Type DWord -Value 1
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 
 		 })
 	})
@@ -1006,7 +1045,7 @@ $securityhigh.Add_Click( {
 				Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 0
 				Write-Host "Enabling Malicious Software Removal Tool offering..."
 				Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" -Name "DontOfferThroughWUAU" -ErrorAction SilentlyContinue
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 
 			})
 	})
@@ -1023,7 +1062,7 @@ $defaultwindowsupdate.Add_Click( {
 				Write-Host "Enabling Windows Update automatic restart..."
 				Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoRebootWithLoggedOnUsers" -ErrorAction SilentlyContinue
 				Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUPowerManagement" -ErrorAction SilentlyContinue
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 			})
 	})
 
@@ -1051,7 +1090,7 @@ $securitywindowsupdate.Add_Click( {
 				}
 				Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoRebootWithLoggedOnUsers" -Type DWord -Value 1
 				Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUPowerManagement" -Type DWord -Value 0
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 
 			})
 
@@ -1066,7 +1105,7 @@ $actioncenter.Add_Click( {
 				}
 				Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
 				Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 
 			})
 	})
@@ -1085,7 +1124,7 @@ $visualfx.Add_Click( {
 				Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAnimations" -Type DWord -Value 0
 				Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type DWord -Value 3
 				Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 0
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 
 			})
 	})
@@ -1118,7 +1157,7 @@ $onedrive.Add_Click( {
 				}
 				Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
 				Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 			})
 	})
 
@@ -1127,7 +1166,7 @@ $darkmode.Add_Click( {
 		Start-Job -ScriptBlock ( { 
 				Write-Host "Enabling Dark Mode"
 				Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name AppsUseLightTheme -Value 0
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 
 			})
 	})
@@ -1137,7 +1176,7 @@ $lightmode.Add_Click( {
 		Start-Job -ScriptBlock ( {
 				Write-Host "Switching Back to Light Mode"
 				Remove-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name AppsUseLightTheme
-				# $wshell.Popup("Operation Completed", 0, "Done", 0x0)
+				
 
 			})
 	})
